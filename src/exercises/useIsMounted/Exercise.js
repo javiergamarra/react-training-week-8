@@ -1,8 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useEffect, useLayoutEffect, useRef, useState} from "react";
 
 function useIsMounted() {
-  // TODO: actually implement!
-  return () => true;
+
+  const ref = useRef(false);
+
+  useLayoutEffect(() => {
+    ref.current = true;
+    return () => {
+      ref.current = false;
+    }
+  }, []);
+
+  return useCallback(() => ref.current, []);
 }
 
 export default function Exercise() {
@@ -34,7 +43,8 @@ export default function Exercise() {
         </pre>
         <p>
           Once you have implemented your solution, compare it with{" "}
-          <a href="https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-react-web/src/main/resources/META-INF/resources/js/hooks/useIsMounted.es.js">
+          <a
+            href="https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-react-web/src/main/resources/META-INF/resources/js/hooks/useIsMounted.es.js">
             the one in liferay-portal
           </a>
           .
@@ -48,7 +58,7 @@ export default function Exercise() {
           Hide
         </button>
 
-        {showChild ? <Child /> : null}
+        {showChild ? <Child/> : null}
       </div>
     </>
   );
@@ -65,7 +75,7 @@ function Child() {
         setBackgroundColor("#eee");
       }
     }, 5000);
-  }, []);
+  }, [isMounted]);
 
   return (
     <div
