@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
 export default function Exercise() {
   return (
@@ -19,16 +19,28 @@ export default function Exercise() {
       </div>
       <div className="exercise">
         <ErrorBoundary>
-          <SketchyComponent />
+          <SketchyComponent/>
         </ErrorBoundary>
       </div>
     </>
   );
 }
 
-// TODO: actually implement this class
 class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {hasError: false};
+  }
+
+  static getDerivedStateFromError(error) {
+    return {hasError: true};
+  }
+
   render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong.</h1>;
+    }
+
     return this.props.children;
   }
 }
