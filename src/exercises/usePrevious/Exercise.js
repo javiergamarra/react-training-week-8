@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 function usePrevious(value) {
-  // TODO: actually implement!
-  return NaN;
+  const ref = useRef(value);
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
 }
 
 export default function Exercise() {
@@ -35,20 +38,21 @@ export default function Exercise() {
       </pre>
       <p>
         Once you have implemented your solution, compare it with{" "}
-        <a href="https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-react-web/src/main/resources/META-INF/resources/js/hooks/usePrevious.es.js">
+        <a
+          href="https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-react-web/src/main/resources/META-INF/resources/js/hooks/usePrevious.es.js">
           the one in liferay-portal
         </a>
         .
       </p>
       <div className="exercise">
         <button onClick={() => setCount(n => n + 1)}>Increment</button>
-        <Counter count={count} />
+        <Counter count={count}/>
       </div>
     </>
   );
 }
 
-function Counter({ count }) {
+function Counter({count}) {
   const previousCount = usePrevious(count);
 
   return (
